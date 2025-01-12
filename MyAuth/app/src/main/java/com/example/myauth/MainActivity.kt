@@ -28,6 +28,7 @@ import com.example.myauth.retrofit.SignUpResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
@@ -39,9 +40,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        dataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-/*
+        /*
 //        <-----Retrofit----->
         val authRepository = AuthRepository()
         val factory = AuthViewModelFactory(authRepository)
@@ -93,8 +94,8 @@ class MainActivity : AppCompatActivity() {
 
 */
 
-        /*
 
+/*
 //        <-----Room Database----->
 
         val dao = MyDatabase.getDatabase(applicationContext).userDao()
@@ -123,15 +124,15 @@ class MainActivity : AppCompatActivity() {
 
             var res:String? = null
             CoroutineScope(Dispatchers.IO).launch {
-                    res = mainViewModel.getUserById(1)
-                     Log.d("Result","Logged In via Room: "+res)
-
-            }
-                if(res!=null)
-                {
-                    Toast.makeText(this,"Logged In via Room",Toast.LENGTH_LONG).show()
+                res = mainViewModel.getUserById(1)
+                Log.d("Result", "Logged In via Room: " + res)
+                if (res != null) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(applicationContext, "Logged In via Room", Toast.LENGTH_LONG).show()
+                        }
                 }
 
+            }
             }
 
 
@@ -151,8 +152,8 @@ class MainActivity : AppCompatActivity() {
 
             })
         }
-
 */
+
 
 
 //       <-----Integration of Room and Retrofit----->
@@ -182,9 +183,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("Result: LoginSuccess", "User Profile: ${loginResponse}")
             Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show()
         }
-
-
-
 
 
     }

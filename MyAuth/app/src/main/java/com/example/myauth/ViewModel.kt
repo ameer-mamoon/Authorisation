@@ -1,6 +1,7 @@
 package com.example.myauth
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,7 +29,7 @@ class ViewModel(private val repository: Repository) : ViewModel() {
                 val user = repository.getUserFromRoom()
                 if (user != null) {
                     Log.d("Result: Auth", "User found in Room: ${user}")
-                    _loginResponse.postValue(LoginResponse(0,"abc@mail.com","abc",user,"abc","abc","abc","abc"))
+                    _loginResponse.postValue(LoginResponse(0,user,"abc","abc","abc","abc","abc","abc"))
                 } else
                 {
                     // No credentials in Room, hit API

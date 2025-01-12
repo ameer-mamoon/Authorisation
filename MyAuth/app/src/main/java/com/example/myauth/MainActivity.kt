@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         dataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-/*
 
+/*
 //        <-----Retrofit----->
         val authRepository = AuthRepository()
         val factory = AuthViewModelFactory(authRepository)
@@ -91,7 +91,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+*/
 
+        /*
 
 //        <-----Room Database----->
 
@@ -102,22 +104,39 @@ class MainActivity : AppCompatActivity() {
             .get(MainViewModel::class.java)
 
        CoroutineScope(Dispatchers.IO).launch {
-           dataBinding.btnLogin.setOnClickListener {
-               mainViewModel.insertUser(User(0,dataBinding.username.text.toString(),
-                   dataBinding.password.text.toString()))
-               Log.d("Result","Inserted")
-               Toast.makeText(applicationContext,"Inserted in Room",Toast.LENGTH_LONG).show()
+           dataBinding.btnSignUp.setOnClickListener {
+               val email = dataBinding.email.text.toString()
+               val password = dataBinding.password.text.toString()
+
+               if(email.isNotEmpty() && password.isNotEmpty())
+               {
+                   mainViewModel.insertUser(User(0,email,password))
+                   Log.d("Result","Inserted")
+                   Toast.makeText(applicationContext,"Inserted in Room",Toast.LENGTH_LONG).show()
+               }
            }
 
        }
 
-        CoroutineScope(Dispatchers.IO).launch {
-             val res = mainViewModel.getUserById(0)
-            Log.d("Result","Retrieved "+res)
-        }
+
+            dataBinding.btnLogin.setOnClickListener {
+
+            var res:String? = null
+            CoroutineScope(Dispatchers.IO).launch {
+                    res = mainViewModel.getUserById(1)
+                     Log.d("Result","Logged In via Room: "+res)
+
+            }
+                if(res!=null)
+                {
+                    Toast.makeText(this,"Logged In via Room",Toast.LENGTH_LONG).show()
+                }
+
+            }
+
 
         CoroutineScope(Dispatchers.IO).launch {
-            dataBinding.username.addTextChangedListener(object : TextWatcher{
+            dataBinding.email.addTextChangedListener(object : TextWatcher{
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
 
@@ -132,8 +151,8 @@ class MainActivity : AppCompatActivity() {
 
             })
         }
-*/
 
+*/
 
 
 //       <-----Integration of Room and Retrofit----->
@@ -161,11 +180,13 @@ class MainActivity : AppCompatActivity() {
 
         myViewModel.loginResponse.observe(this) { loginResponse ->
             Log.d("Result: LoginSuccess", "User Profile: ${loginResponse}")
+            Toast.makeText(this, "Login Successful", Toast.LENGTH_LONG).show()
         }
 
-        Log.d("Result","Hello")
+
 
 
 
     }
+
 }

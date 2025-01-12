@@ -27,7 +27,7 @@ class Repository(private val userDao: UserDao) {
     // Check if user exists in Room
     suspend fun getUserFromRoom(): String {
         return withContext(Dispatchers.IO) {
-            userDao.getUser(0)
+            userDao.getUser(1)
         }
     }
 

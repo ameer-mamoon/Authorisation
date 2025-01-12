@@ -163,6 +163,8 @@ class MainActivity : AppCompatActivity() {
             Log.d("Result: LoginSuccess", "User Profile: ${loginResponse}")
         }
 
+        Log.d("Result","Hello")
+
 
 
     }
